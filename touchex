@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Yay for WSL, hacked together by Julian @ ANU
+Help()
+{
+   # Display Help
+   /usr/bin/echo "Touchex = touch then explorer.exe."
+   /usr/bin/echo "Will create a file of the given name in this directory then open it using explorer.exe (for WSL users)"
+   /usr/bin/echo "Because WSL is bad, you cannot call explorer.exe on a file in a different directory (ie. ../test.py)"
+   /usr/bin/echo "For now, this script will only touch files in this directory."
+   /usr/bin/echo
+   /usr/bin/echo "Syntax: touchex [h] filename.ext"
+   /usr/bin/echo "options:"
+   /usr/bin/echo "h     Print this Help."
+   /usr/bin/echo 
+}
+dir='./'
+
+while getopts ":h" option; do
+	case $option in
+		h)
+			Help
+			exit;;
+		\?)
+			/usr/bin/echo "Unrecognised flag. Use -h for help. "
+			exit;;
+	esac
+done
+
+if [ $# -gt 0 ]
+then
+	/usr/bin/touch $1;
+	explorer.exe $1;
+	/usr/bin/echo "Touched file at "$PWD
+else 
+	/usr/bin/echo "Missing filename to Touchex. Use -h for help. "
+fi
